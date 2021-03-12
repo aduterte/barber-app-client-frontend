@@ -1,17 +1,15 @@
 
 import './App.css';
 import react, {useEffect} from 'react'
-import { atom , useRecoilState }from 'recoil'
+
+import {useRecoilState} from 'recoil'
+import {repoState as repoAtom} from './atoms'
 
 import Testing from './components/testing'
 
-const repoState = atom({
-  key: "repos",
-  default: 5
-})
 
 function App() {
-  const [repos, setReops] = useRecoilState(repoState)
+  // const [repos, setReops] = useRecoilState(repoAtom)
   return (
     <div>
       <Testing/>
