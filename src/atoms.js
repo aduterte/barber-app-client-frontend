@@ -1,6 +1,17 @@
 import { atom  }from 'recoil'
 
-export const repoState = atom({
-  key: "repo",
-  default: 5
+export const searchTextState = atom({
+  key: "searchText",
+  default: ""
+})
+
+export const barbersState = atom({
+  key: "barbersState",
+  default: []
+})
+
+
+export const clientsState = atom({
+  key: "clientsState",
+  default: []
 })

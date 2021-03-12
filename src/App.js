@@ -3,19 +3,38 @@ import './App.css';
 import react, {useEffect} from 'react'
 
 import {useRecoilState} from 'recoil'
-import {repoState as repoAtom} from './atoms'
+import {barbersState as barbersAtom,
+        clientsState as clientsAtom} from './atoms'
 
-import Testing from './components/testing'
+import SearchBar from './components/Searchbar'
 
 
 function App() {
-  // const [repos, setReops] = useRecoilState(repoAtom)
+
+  const [clients, setClients] = useRecoilState(clientsAtom)
+  const [barbers, setBarbers] = useRecoilState(barbersAtom)
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/barbers`)
+    .then(res => res.json())
+    .then(barbers => {
+      setBarbers(barbers)
+    })
+    fetch(`http://localhost:3000/clients`)
+    .then(res => res.json())
+    .then(clients => {
+      setClients(clients)
+    })
+  
+  },[])
+
+
   return (
     <div>
-      <Testing/>
+      <SearchBar/>
     </div>
 
   )
 }
 
-export default App;
+export default App
