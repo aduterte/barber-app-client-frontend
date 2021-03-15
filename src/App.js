@@ -1,12 +1,15 @@
 
 import './App.css';
+import { Route, Switch } from "react-router-dom"
+
 import  {useEffect} from 'react'
 import {useRecoilState} from 'recoil'
 import {barbersState as barbersAtom,
         clientsState as clientsAtom} from './atoms'
 
 import SearchBar from './components/Searchbar'
-import BarberList from './components/BarberList'
+// import BarberList from './components/BarberList'
+import BarberDetail from './components/BarberDetail'
 
 
 function App() {
@@ -24,6 +27,8 @@ function App() {
     .then(res => res.json())
     .then(clients => {
       setClients(clients)
+    fetch(`http://localhost:3000/barber_reviews`)
+    
     })
   
   },[])
@@ -31,8 +36,23 @@ function App() {
 
   return (
     <div>
-      <SearchBar/>
-      <BarberList/>
+
+      <Switch>      
+        <Route
+          exact path="/"
+          render={() => (
+          <div>
+            <SearchBar/>
+           
+          </div>
+          )} 
+           />
+           
+         <Route
+          exact path="/barbers/:barberId"
+          component={BarberDetail}/>
+          
+      </Switch>
     </div>
 
   )

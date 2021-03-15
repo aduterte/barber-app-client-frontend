@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter as Router} from 'react-router-dom'
 import { RecoilRoot } from 'recoil';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Router>
     <RecoilRoot>
-      <App />
+      <App/>
     </RecoilRoot>
-  </React.StrictMode>,
+  </Router>,
   document.getElementById('root')
 );
 

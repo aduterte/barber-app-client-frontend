@@ -20,3 +20,10 @@ export const filteredBarbersState = atom({
   key: "filteredBarbersState",
   default: []
 })
+
+export const selectedBarberState = atom({
+  key: "selectedBarberState",
+  default: []
+})
+
+
