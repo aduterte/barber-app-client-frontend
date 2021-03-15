@@ -11,7 +11,8 @@ function SearchBar() {
 
   const [searchText, setSearchText] = useRecoilState(searchTextAtom)
 
-  console.log(searchText)
+
+
   return (
     <div>
       <input
@@ -20,8 +21,9 @@ function SearchBar() {
     value={searchText}
     onChange={e => setSearchText(e.target.value)}
     />
-    </div>
 
+
+  </div>
   )
 }
 

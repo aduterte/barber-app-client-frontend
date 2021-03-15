@@ -1,12 +1,12 @@
 
 import './App.css';
-import react, {useEffect} from 'react'
-
+import  {useEffect} from 'react'
 import {useRecoilState} from 'recoil'
 import {barbersState as barbersAtom,
         clientsState as clientsAtom} from './atoms'
 
 import SearchBar from './components/Searchbar'
+import BarberList from './components/BarberList'
 
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
   return (
     <div>
       <SearchBar/>
+      <BarberList/>
     </div>
 
   )
