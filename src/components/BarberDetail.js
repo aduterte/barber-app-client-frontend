@@ -3,7 +3,8 @@ import ReviewForm from './ReviewForm'
 import {useState ,useEffect} from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil'
 import {selectedBarberState, 
-        clientsState} from '../atoms'
+        clientsState,
+        userState} from '../atoms'
 
 
 
@@ -11,8 +12,9 @@ import {selectedBarberState,
 function BarberDetail() {
 
   const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
-  client = useRecoilValue(clientsState)
-  const [reviewToggle, setReviewToggle] = useState(false)
+        client = useRecoilValue(clientsState),
+        [reviewToggle, setReviewToggle] = useState(false),
+        user = useRecoilValue(userState)
 
 
 
@@ -39,8 +41,10 @@ axios.get(`http://localhost:3000/barbers/${index}`)
 
     {selectedBarber.barber_reviews.map(review=>
       <div key={review.id}>
-          <div >"{review.content}"</div>
+          <div>"{review.content}"</div>
           <div>- {client.find(c=> review.client_id === c.id).username}</div>
+          {!!user.id === client.find(c=> review.client_id === c.id).id ? null:
+    <ReviewForm/>} 
           <button > edit</button>
       </div>    
     )} 

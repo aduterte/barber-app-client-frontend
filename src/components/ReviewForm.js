@@ -9,7 +9,7 @@ import {userState,
         selectedBarberState} from '../atoms'
 
 export default function ReviewForm(){
-const [input, setInput] = useState({content: "", rating: 5})
+const [input, setInput] = useState({content: "", rating: 0})
 const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
       user = useRecoilValue(userState)
 
@@ -20,16 +20,22 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
 
 }
 
+  
+
+ 
+  
   function handleSubmit(e){
+
     const axios = require('axios')
     e.preventDefault()
+    // let newReviews = 
+
     axios.post('http://localhost:3000/barber_reviews', {...input, barber_id: selectedBarber.id, client_id: user.id})
-    .then(res=> console.log(res))
-  
-  }
+    .then(res=>setSelectedBarber({...selectedBarber, barber_reviews: [...selectedBarber.barber_reviews, res.data]})
+      ) 
+      
+    }
 
-
-console.log(user.id)
 
 
   return (
@@ -41,11 +47,12 @@ console.log(user.id)
             value={input.content}
             onChange={handleInput}  />
       <select onChange={handleInput}>
-        <option value={1}>1</option>
+        <option>--</option>
+        <option value={1} selected="selected">1</option>
         <option value={2}>2</option>
         <option value={3}>3</option>
         <option value={4}>4</option>
-        <option value={5} selected="selected">5</option>
+        <option value={5}>5</option>
       </select>
     </form>
 
