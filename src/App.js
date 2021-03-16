@@ -2,7 +2,7 @@
 import './App.css';
 import axios from 'axios';
 
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, Redirect } from "react-router-dom"
 import  {useEffect} from 'react'
 import {useSetRecoilState, useRecoilState} from 'recoil'
 import {barbersState as barbersAtom,
@@ -14,13 +14,14 @@ import SearchBar from './components/Searchbar'
 import BarberDetail from './components/BarberDetail'
 import LoginContainer from './containers/logincontainer'
 import API from './api'
+import NavBar from './components/NavBar';
 
 
 function App() {
 
   const setClients = useSetRecoilState(clientsAtom),
     setBarbers = useSetRecoilState(barbersAtom),
-    setUser = useSetRecoilState(userState),
+    [user,setUser] = useRecoilState(userState),
     setBarberReviews = useSetRecoilState(barberReviewsAtom)
 
  
@@ -57,7 +58,7 @@ function App() {
 
   return (
     <div>
-
+      <NavBar/>
       <Switch>      
         <Route
           exact path="/"
@@ -73,9 +74,9 @@ function App() {
           exact path="/barbers/:barberId"
           component={BarberDetail}/>
         <Route exact path="/login">
-          <div>
-            <LoginContainer/>
-          </div>
+            {user.username ? <Redirect to="/"/> :  <LoginContainer/>}
+           
+          
         </Route>
       </Switch>
     </div>

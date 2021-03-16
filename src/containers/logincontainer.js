@@ -36,6 +36,7 @@ export default function LoginContainer(){
     function handleLogout(){
         localStorage.removeItem("token")
         localStorage.removeItem("type")
+        setUserinfo({})
     }
 
     return (

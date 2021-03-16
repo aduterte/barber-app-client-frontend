@@ -16,17 +16,17 @@ function BarberDetail() {
  
 
 console.log("selectedBarberState", selectedBarber)
-  return (selectedBarber? 
-  <div>
-    <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
-    <h4>email: {selectedBarber.email}</h4>
+  // return (selectedBarber &&
+  // <div>
+  //   <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
+  //   <h4>email: {selectedBarber.email}</h4>
 
-    {barberReviews.filter(b=>b.barber_id ===selectedBarber.id).map(comment=>
-        <div>{comment.content}</div>
+  //   {barberReviews.filter(b=>b.barber_id ===selectedBarber.id).map(comment=>
+  //       <div>{comment.content}</div>
         
-    )}
-  </div>
-  )
+  //   )}
+  // </div>
+  // )
   
 }
 
