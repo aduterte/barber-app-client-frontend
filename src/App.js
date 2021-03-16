@@ -1,15 +1,16 @@
 
 import './App.css';
-import { Route, Switch } from "react-router-dom"
+import axios from 'axios';
 
+import { Route, Switch } from "react-router-dom"
 import  {useEffect} from 'react'
 import {useSetRecoilState, useRecoilState} from 'recoil'
 import {barbersState as barbersAtom,
         clientsState as clientsAtom,
-        userState} from './atoms'
+        userState, 
+        barberReviewsState as barberReviewsAtom} from './atoms'
 
 import SearchBar from './components/Searchbar'
-// import BarberList from './components/BarberList'
 import BarberDetail from './components/BarberDetail'
 import LoginContainer from './containers/logincontainer'
 import API from './api'
@@ -19,22 +20,23 @@ function App() {
 
   const setClients = useSetRecoilState(clientsAtom),
     setBarbers = useSetRecoilState(barbersAtom),
-    [user, setUser] = useRecoilState(userState)
+    setUser = useSetRecoilState(userState),
+    setBarberReviews = useSetRecoilState(barberReviewsAtom)
+
+ 
+
+
 
   useEffect(() => {
-    const URL = "http://localhost:3000"
-    fetch(`${URL}/barbers`)
-    .then(res => res.json())
-    .then(barbers => {
-      setBarbers(barbers)
-    })
-    fetch(`${URL}/clients`)
-    .then(res => res.json())
-    .then(clients => {
-      setClients(clients)
-    fetch(`${URL}/barber_reviews`)
+    axios.get('http://localhost:3000/barbers')
+    .then(res => setBarbers(res.data))
     
-    })
+    axios.get('http://localhost:3000/barbers')
+    .then(res => setClients(res.data))
+    
+    axios.get('http://localhost:3000/barber_reviews')
+    .then(res => setBarberReviews(res.data))
+  
   
   },[setBarbers, setClients])
 
@@ -51,9 +53,7 @@ function App() {
   }, [setUser])
 
   // componentDidUpdate for userState
-  useEffect(()=>{ 
-    console.log(user)
-  },[user])
+
 
   return (
     <div>
