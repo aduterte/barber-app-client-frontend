@@ -4,22 +4,21 @@
 
 
 import {useEffect} from 'react'
-import {useRecoilState} from 'recoil'
+import {useRecoilState, useRecoilValue} from 'recoil'
 import { Link } from "react-router-dom"
-import {searchTextState as searchTextAtom, 
-        barbersState as barbersAtom,
-        filteredBarbersState as filteredBarbersAtom,
-        selectedBarberState as selectedBarberAtom} from '../atoms'
+import {searchTextState, 
+        barbersState,
+        filteredBarbersState} from '../atoms'
 
 
 
 
 function SearchBar() {
 
-  const [searchText, setSearchText] = useRecoilState(searchTextAtom)
-  const [barbers, setBarbers] = useRecoilState(barbersAtom)
-  const [filteredBarbers, setFilteredBarbers] = useRecoilState(filteredBarbersAtom)
-  const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberAtom)
+  const [searchText, setSearchText] = useRecoilState(searchTextState),
+        barbers = useRecoilValue(barbersState),
+        [filteredBarbers, setFilteredBarbers] = useRecoilState(filteredBarbersState)
+  
 
 useEffect(() =>{
   setFilteredBarbers( barbers.filter(b =>{
@@ -43,7 +42,7 @@ useEffect(() =>{
 
 
 {filteredBarbers.map(b=>
-<Link key={b.id} to={`/barbers/${b.id}`} onClick={() => setSelectedBarber(b)}>
+<Link key={b.id} to={`/barbers/${b.id}`}>
   <div > {b.first_name}  {b.last_name}</div>
   </Link>
   )}

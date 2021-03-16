@@ -4,24 +4,23 @@ import axios from 'axios';
 
 import { Route, Switch } from "react-router-dom"
 import  {useEffect} from 'react'
-import {useSetRecoilState, useRecoilState} from 'recoil'
-import {barbersState as barbersAtom,
-        clientsState as clientsAtom,
-        userState, 
-        barberReviewsState as barberReviewsAtom} from './atoms'
 
 import SearchBar from './components/Searchbar'
 import BarberDetail from './components/BarberDetail'
 import LoginContainer from './containers/logincontainer'
 import API from './api'
 
+import {useSetRecoilState} from 'recoil'
+import {barbersState,
+        clientsState,
+        userState} from './atoms'
 
 function App() {
 
-  const setClients = useSetRecoilState(clientsAtom),
-    setBarbers = useSetRecoilState(barbersAtom),
-    setUser = useSetRecoilState(userState),
-    setBarberReviews = useSetRecoilState(barberReviewsAtom)
+  const setClients = useSetRecoilState(clientsState),
+        setBarbers = useSetRecoilState(barbersState),
+        setUser = useSetRecoilState(userState)
+
 
  
 
@@ -31,12 +30,9 @@ function App() {
     axios.get('http://localhost:3000/barbers')
     .then(res => setBarbers(res.data))
     
-    axios.get('http://localhost:3000/barbers')
+    axios.get('http://localhost:3000/clients')
     .then(res => setClients(res.data))
     
-    axios.get('http://localhost:3000/barber_reviews')
-    .then(res => setBarberReviews(res.data))
-  
   
   },[setBarbers, setClients])
 
