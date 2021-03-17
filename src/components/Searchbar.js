@@ -42,8 +42,8 @@ useEffect(() =>{
 
 
 {filteredBarbers.map(b=>
-<Link key={b.id} to={`/barbers/${b.id}`}>
-  <div > {b.first_name}  {b.last_name}</div>
+  <Link key={b.id} to={`/barbers/${b.id}`}>
+    <div > {b.first_name}  {b.last_name}</div>
   </Link>
   )}
 </div>
