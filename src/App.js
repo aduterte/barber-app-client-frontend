@@ -9,6 +9,7 @@ import SearchBar from './components/Searchbar'
 import BarberDetail from './components/BarberDetail'
 import LoginContainer from './containers/logincontainer'
 import NavBar from './components/NavBar';
+import AccountSettingsContainer from './containers/AccountSettingsContainer';
 
 import {useSetRecoilState,useRecoilState} from 'recoil'
 import {barbersState,
@@ -20,10 +21,6 @@ function App() {
   const setClients = useSetRecoilState(clientsState),
         setBarbers = useSetRecoilState(barbersState),
         [user,setUser] = useRecoilState(userState)
-
-
- 
-
 
 
   useEffect(() => {
@@ -52,28 +49,30 @@ function App() {
 
 
   return (
-    <div>
+    <div className="main">
       <NavBar/>
+      <div id="main-bottom">
       <Switch>      
         <Route
           exact path="/"
           render={() => (
           <div>
             <SearchBar/>
-           
+            
           </div>
           )} 
-           />
-           
-         <Route
+        />
+        <Route
           exact path="/barbers/:barberId"
           component={BarberDetail}/>
         <Route exact path="/login">
             {user.username ? <Redirect to="/"/> :  <LoginContainer/>}
-           
-          
+        </Route>
+        <Route exact path="/account-settings">
+          <AccountSettingsContainer/>
         </Route>
       </Switch>
+      </div>
     </div>
 
   )
