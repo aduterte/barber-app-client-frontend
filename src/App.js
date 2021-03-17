@@ -15,6 +15,7 @@ import BarberDetail from './components/BarberDetail'
 import LoginContainer from './containers/logincontainer'
 import API from './api'
 import NavBar from './components/NavBar';
+import AccountSettingsContainer from './containers/AccountSettingsContainer';
 
 
 function App() {
@@ -23,10 +24,6 @@ function App() {
     setBarbers = useSetRecoilState(barbersAtom),
     [user,setUser] = useRecoilState(userState),
     setBarberReviews = useSetRecoilState(barberReviewsAtom)
-
- 
-  this is a test
-
 
   useEffect(() => {
     axios.get('http://localhost:3000/barbers')
@@ -57,28 +54,30 @@ function App() {
 
 
   return (
-    <div>
+    <div className="main">
       <NavBar/>
+      <div id="main-bottom">
       <Switch>      
         <Route
           exact path="/"
           render={() => (
           <div>
             <SearchBar/>
-           
+            
           </div>
           )} 
-           />
-           
-         <Route
+        />
+        <Route
           exact path="/barbers/:barberId"
           component={BarberDetail}/>
         <Route exact path="/login">
             {user.username ? <Redirect to="/"/> :  <LoginContainer/>}
-           
-          
+        </Route>
+        <Route exact path="/account-settings">
+          <AccountSettingsContainer/>
         </Route>
       </Switch>
+      </div>
     </div>
 
   )
