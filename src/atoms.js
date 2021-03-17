@@ -33,3 +33,8 @@ export const userState = atom({
   default: {}
 })
 
+export const inputState = atom({
+  key: "inputState",
+  default: {content: "", rating: 0}
+})
+

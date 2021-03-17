@@ -3,19 +3,17 @@
 
 
 
-import { useState, useEffect} from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil'
 import {userState,
         selectedBarberState} from '../atoms'
 
-export default function ReviewForm(){
-const [input, setInput] = useState({content: "", rating: 0})
+export default function ReviewForm(props){
 const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
       user = useRecoilValue(userState)
 
   function handleInput(e){
   let {name, value} = e.target
-  setInput({...input,[name]:value })
+  props.setInput({...props.input,[name]:value })
   }
 
   
@@ -23,26 +21,33 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
  
   
   function handleSubmit(e){
-
     const axios = require('axios')
     e.preventDefault()
-    // let newReviews = 
+      if (props.editing === false){
+      axios.post('http://localhost:3000/barber_reviews', {...props.input, barber_id: selectedBarber.id, client_id: user.id})
+        .then(res=>setSelectedBarber({...selectedBarber, barber_reviews: [...selectedBarber.barber_reviews, res.data]}))
+        props.setReviewToggle(0)
+    }else
+    {
+      axios.patch(`http://localhost:3000/barber_reviews/${props.editing.id}`,{...props.input})
+      .then(res => {
+        const filteredReviews = selectedBarber.barber_reviews.filter(r=> r.id !== props.editing.id)
+          setSelectedBarber({...selectedBarber, barber_reviews: [...filteredReviews, res.data]})})
+          props.setReviewToggle(0)
+        }
 
-    axios.post('http://localhost:3000/barber_reviews', {...input, barber_id: selectedBarber.id, client_id: user.id})
-    .then(res=>setSelectedBarber({...selectedBarber, barber_reviews: [...selectedBarber.barber_reviews, res.data]})
-      ) 
-      
-    }
+      }
+    
 
 
-console.log(input)
+console.log(props.editing)
   return (
   
           <div>
     <form onSubmit={handleSubmit}>       
       <input name="content"
             placeholder="leave a review..."
-            value={input.content}
+            value={props.input.content}
             onChange={handleInput}  />
       <select name ='rating' onChange={handleInput}>
         <option selected="selected">--</option>

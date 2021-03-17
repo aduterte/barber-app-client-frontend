@@ -14,7 +14,8 @@ function BarberDetail() {
   const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
         client = useRecoilValue(clientsState),
         [reviewToggle, setReviewToggle] = useState(false),
-        
+        [input, setInput] = useState({content: "", rating: 0}),
+        [editing,setEditing] = useState({}),
         user = useRecoilValue(userState)
 
 
@@ -35,9 +36,19 @@ axios.get(`http://localhost:3000/barbers/${index}`)
   .then(setSelectedBarber({...selectedBarber, barber_reviews: [...selectedBarber.barber_reviews.filter(r=> r.id !== id)]}));
   }
 
-function handleReviewToggle(id){
+function handleCreateToggle(id){
+  setReviewToggle(-1)
+  setEditing(false)
+  setInput({content: "", rating: 0})
+ 
+}
+
+function handleEditClick(review){
+  setEditing(review)
+  setInput({content: review.content, rating: review.rating})
+  
   setReviewToggle({
-    edit: id
+    edit: review.id
   })
 }
 
@@ -48,9 +59,9 @@ console.log(reviewToggle)
   <div>
     <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
     <h4>email: {selectedBarber.email}</h4>
-    <button onClick={()=> setReviewToggle(-1)}>leave review</button>
+    <button onClick={()=> handleCreateToggle(-1)}>leave review</button>
     {reviewToggle === -1? 
-    <ReviewForm/>:null} 
+    <ReviewForm input={input} setInput = {setInput} editing={editing} setReviewToggle={setReviewToggle}/>:null} 
 
 
     {selectedBarber.barber_reviews.map(review=>
@@ -58,19 +69,20 @@ console.log(reviewToggle)
           <div>"{review.content}"</div>
           <div> {review.rating}</div>
           <div>- {client.find(c=> review.client_id === c.id).username}</div>
+         
           {!review.client_id === user.id? null :
-          <div>
-            <button onClick = {()=>handleReviewToggle(review.id)}> edit</button>
-          {reviewToggle.edit == review.id?
-          <div> 
-            <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
-              <ReviewForm/>
-          </div>
-              :null
-              
+            <div>
+              <button onClick = {()=>handleEditClick(review)}> edit</button>
+            
+                {reviewToggle.edit === review.id?
+                <div> 
+                  <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
+                    <ReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+                </div>
+                    :null    
+                }
+            </div>
           }
-          </div>
-           }
           
       </div>    
     )} 
