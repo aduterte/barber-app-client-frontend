@@ -40,7 +40,6 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
     
 
 
-console.log(props.editing)
   return (
   
           <div>
@@ -50,7 +49,7 @@ console.log(props.editing)
             value={props.input.content}
             onChange={handleInput}  />
       <select name ='rating' onChange={handleInput}>
-        <option selected="selected">--</option>
+        <option defaultValue={0}>--</option>
         <option value={1}>1</option>
         <option value={2}>2</option>
         <option value={3}>3</option>

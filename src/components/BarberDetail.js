@@ -53,7 +53,7 @@ function handleEditClick(review){
 }
 
 
-console.log(reviewToggle)
+
   
   return ( !selectedBarber ? null : (
   <div>
