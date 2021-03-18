@@ -52,40 +52,55 @@ function handleEditClick(review){
   })
 }
 
+function userReviewOnTop(){
+  if(!!user.id&& selectedBarber.barber_reviews.filter(r=>r.client_id === user.id).length>0){
+  let reviews = selectedBarber.barber_reviews
+  let newReviews = reviews.filter(review => review.client_id !== user.id);
 
-console.log(user)
+  newReviews.unshift(reviews.find(review=>review.client_id === user.id))
+  return newReviews} else {
+    return selectedBarber.barber_reviews
+  }
+
+}
+console.log(!!user.id)
   
   return ( !selectedBarber ? null : (
+    
   <div>
+    {/* <div>{userReviewOnTop()}</div> */}
     <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
     <h4>email: {selectedBarber.email}</h4>
     
-   
-    <button onClick={()=> handleCreateToggle(-1)}>leave review</button>
-    {reviewToggle === -1? 
-    <BarberReviewForm input={input} setInput = {setInput} editing={editing} setReviewToggle={setReviewToggle}/>:null} 
+   {!selectedBarber.barber_reviews.filter(r=>r.client_id === user.id).length>0 && !!user.id ?  
+   <div>
+   <button onClick={()=> handleCreateToggle(-1)}>leave review</button>
+        {reviewToggle === -1? 
+        <BarberReviewForm input={input} setInput = {setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+        : null}
+    </div> 
+    : null}
 
-
-    {selectedBarber.barber_reviews.map(review=>
+    {userReviewOnTop().map(review=>
       <div key={review.id}>
           <div>"{review.content}"</div>
           <div> {review.rating}</div>
           <div>- {client.find(c=> review.client_id === c.id).username}</div>
        
-       {/* make sure that user is logged in and wrote the comment to allow edit capabilities */}
-                  {!!user.id && user.id === review.client_id? 
-                    
+                  {/* make sure that user is logged in and wrote the comment to allow edit capabilities */}
+                  {!!user.id && user.id === review.client_id?  
                     <div>
                       <button onClick = {()=>handleEditClick(review)}> edit</button> 
-                    {/* Determine what comment gets access to form */}
-                            {!reviewToggle.edit === review.id?
-                            <div> 
-                              <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
-                                <BarberReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
-                            </div>
-                                :
-                                null    
-                            }
+                   
+                              {/*handles form and deletetoggle */}
+                              {reviewToggle.edit === review.id?
+                              <div> 
+                                <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
+                                  <BarberReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+                              </div>
+                                  :
+                                  null    
+                              }
                     </div> 
                     
                     :
