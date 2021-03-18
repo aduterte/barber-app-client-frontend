@@ -26,6 +26,11 @@ export const selectedBarberState = atom({
   default: null
  })
 
+export const selectedClientState = atom({
+  key: "selectedClientState",
+  default: null
+})
+
 
 
 export const userState = atom({
@@ -33,8 +38,4 @@ export const userState = atom({
   default: {}
 })
 
-export const inputState = atom({
-  key: "inputState",
-  default: {content: "", rating: 0}
-})
 

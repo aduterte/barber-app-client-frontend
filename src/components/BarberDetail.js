@@ -1,5 +1,5 @@
 import axios from 'axios';
-import ReviewForm from './ReviewForm'
+import BarberReviewForm from './BarberReviewForm'
 import {useState ,useEffect} from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil'
 import {selectedBarberState, 
@@ -53,15 +53,17 @@ function handleEditClick(review){
 }
 
 
-
+console.log(user)
   
   return ( !selectedBarber ? null : (
   <div>
     <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
     <h4>email: {selectedBarber.email}</h4>
+    
+   
     <button onClick={()=> handleCreateToggle(-1)}>leave review</button>
     {reviewToggle === -1? 
-    <ReviewForm input={input} setInput = {setInput} editing={editing} setReviewToggle={setReviewToggle}/>:null} 
+    <BarberReviewForm input={input} setInput = {setInput} editing={editing} setReviewToggle={setReviewToggle}/>:null} 
 
 
     {selectedBarber.barber_reviews.map(review=>
@@ -69,21 +71,26 @@ function handleEditClick(review){
           <div>"{review.content}"</div>
           <div> {review.rating}</div>
           <div>- {client.find(c=> review.client_id === c.id).username}</div>
-         
-          {!review.client_id === user.id? null :
-            <div>
-              <button onClick = {()=>handleEditClick(review)}> edit</button>
-            
-                {reviewToggle.edit === review.id?
-                <div> 
-                  <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
-                    <ReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
-                </div>
-                    :null    
-                }
-            </div>
-          }
-          
+       
+       {/* make sure that user is logged in and wrote the comment to allow edit capabilities */}
+                  {!!user.id && user.id === review.client_id? 
+                    
+                    <div>
+                      <button onClick = {()=>handleEditClick(review)}> edit</button> 
+                    {/* Determine what comment gets access to form */}
+                            {!reviewToggle.edit === review.id?
+                            <div> 
+                              <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
+                                <BarberReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+                            </div>
+                                :
+                                null    
+                            }
+                    </div> 
+                    
+                    :
+                    null
+                  }
       </div>    
     )} 
 

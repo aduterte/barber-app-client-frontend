@@ -7,6 +7,7 @@ import  {useEffect} from 'react'
 import API from './api'
 import SearchBar from './components/Searchbar'
 import BarberDetail from './components/BarberDetail'
+import ClientDetail from './components/ClientDetail'
 import LoginContainer from './containers/logincontainer'
 import NavBar from './components/NavBar';
 import AccountSettingsContainer from './containers/AccountSettingsContainer';
@@ -45,8 +46,6 @@ function App() {
     }  
   }, [setUser])
 
-  // componentDidUpdate for userState
-
 
   return (
     <div className="main">
@@ -62,9 +61,10 @@ function App() {
           </div>
           )} 
         />
-        <Route
-          exact path="/barbers/:barberId"
+        <Route exact path="/barbers/:barberId"
           component={BarberDetail}/>
+        <Route exact path="/clients/:barberId"
+          component={ClientDetail}/>
         <Route exact path="/login">
             {user.username ? <Redirect to="/"/> :  <LoginContainer/>}
         </Route>
