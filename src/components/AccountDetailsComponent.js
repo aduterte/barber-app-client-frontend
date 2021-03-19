@@ -21,21 +21,12 @@ export default function AccountSettingsComponent(){
             </div>
             <div onClick={()=>{setEdit(!edit)}}>Edit Profile</div>
             <div className="h-line"/>
-            {edit ?
-            <form>
-                <div>Your email: form{user.email}</div>
-                <div>First Name: {user.first_name}</div>
-                <div>Last Name: {user.last_name}</div>
-                <div>Zip Code: {user.zip_code}</div>
-                <input type="submit"></input>
-            </form> :
-            <div>
-                <div>Your email: {user.email}</div>
+           
+            <div>Your email: {user.email}</div>
             <div>First Name: {user.first_name}</div>
             <div>Last Name: {user.last_name}</div>
             <div>Zip Code: {user.zip_code}</div>
-            </div>
-            }
+           
             
             
             
