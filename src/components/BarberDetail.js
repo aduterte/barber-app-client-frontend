@@ -4,7 +4,8 @@ import {useState ,useEffect} from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil'
 import {selectedBarberState, 
         clientsState,
-        userState} from '../atoms'
+        userState,
+      bRCState} from '../atoms'
 
 
 
@@ -28,6 +29,9 @@ const index = str.substring(n + 1);
 
 axios.get(`http://localhost:3000/barbers/${index}`)
 .then(res => setSelectedBarber(res.data))
+
+// axios.get('http://localhost:3000/barber_review_comments')
+// .then(res => set )
   },[setSelectedBarber])
 
  function handleDelete(e,id){
@@ -63,12 +67,13 @@ function userReviewOnTop(){
   }
 
 }
-console.log(!!user.id)
+console.log("ls",localStorage.type)
   
   return ( !selectedBarber ? null : (
     
   <div>
-    {/* <div>{userReviewOnTop()}</div> */}
+    {!localStorage.type || !user.id?
+    <div>
     <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
     <h4>email: {selectedBarber.email}</h4>
     
@@ -98,20 +103,45 @@ console.log(!!user.id)
                                 <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
                                   <BarberReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
                               </div>
-                                  :
-                                  null    
+                                  :null    
                               }
                     </div> 
-                    
-                    :
-                    null
-                  }
-      </div>    
+                    :null}
+          </div>    
     )} 
+      </div>
+: 
+<div>
+    <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
+    <h4>email: {selectedBarber.email}</h4>
+    
+   
 
-  </div>
-  )
-  )
+    {userReviewOnTop().map(review=>
+      <div key={review.id}>
+          <div>"{review.content}"</div>
+          <div> {review.rating}</div>
+          <div>- {client.find(c=> review.client_id === c.id).username}</div>
+       
+                  {/* make sure that user is logged in and wrote the comment to allow edit capabilities */}
+                  {!!user.id && user.id === review.client_id?  
+                    <div>
+                      <button onClick = {()=>handleEditClick(review)}> edit</button> 
+                   
+                              {/*handles form and deletetoggle */}
+                              {reviewToggle.edit === review.id?
+                              <div> 
+                                <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
+                                  <BarberReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+                              </div>
+                                  :null    
+                              }
+                    </div> 
+                    :null}
+          </div>    
+    )} 
+      </div>}
+  </div>))
   
     }
 

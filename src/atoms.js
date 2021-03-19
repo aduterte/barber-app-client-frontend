@@ -31,6 +31,11 @@ export const selectedClientState = atom({
   default: null
 })
 
+export const barberRCState = atom({
+  key: "barberRCState",
+  default: null
+})
+
 
 
 export const userState = atom({
