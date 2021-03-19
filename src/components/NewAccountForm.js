@@ -27,36 +27,36 @@ export default function NewAccountForm(){
         debugger
                 
         input.isBarber === true ? endpoint = 'barbers' : endpoint = 'clients'
-        fetch(`http://localhost:3000/${endpoint}`, {
-            method: 'POST',
-            body: form
-        })
-        .then(res => res.json())
-        .then(data => {
-                   if(!data.error){
-                // debugger
-                setUserinfo(data.user)
-                localStorage.setItem("token", data.token)
-                localStorage.setItem("type", input.isBarber)
-                
-            }
-            else{
-                console.log(data.error)
-            }
-        })
-        // API.post(endpoint, {barber})
-        // .then(res => {
-        //     if(!res.data.error){
-        //         debugger
-        //         setUserinfo(res.data.user)
-        //         localStorage.setItem("token", res.data.token)
+        // fetch(`http://localhost:3000/${endpoint}`, {
+        //     method: 'POST',
+        //     body: form
+        // })
+        // .then(res => res.json())
+        // .then(data => {
+        //            if(!data.error){
+        //         // debugger
+        //         setUserinfo(data.user)
+        //         localStorage.setItem("token", data.token)
         //         localStorage.setItem("type", input.isBarber)
                 
         //     }
         //     else{
-        //         console.log(res.data.error)
+        //         console.log(data.error)
         //     }
         // })
+        API.post(endpoint, form,{headers: {"Content-Type": "multipart/form-data"}})
+        .then(res => {
+            if(!res.data.error){
+                debugger
+                setUserinfo(res.data.user)
+                localStorage.setItem("token", res.data.token)
+                localStorage.setItem("type", input.isBarber)
+                
+            }
+            else{
+                console.log(res.data.error)
+            }
+        })
         
     }
 
