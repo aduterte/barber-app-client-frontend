@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {userState as user} from '../atoms'
 import {useRecoilState} from 'recoil'
 import API from "../api"
+import NewAccountForm from '../components/NewAccountForm'
 
 export default function LoginContainer(){
 
@@ -55,6 +56,7 @@ export default function LoginContainer(){
             <br/>
             <br/>
             <button onClick={handleLogout}>Log Out</button>
+            <NewAccountForm/>
         </div>
     )
 }
