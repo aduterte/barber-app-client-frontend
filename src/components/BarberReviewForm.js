@@ -13,7 +13,7 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
 
   function handleInput(e){
   let {name, value} = e.target
-  props.setInput({...props.input,[name]:value })
+  props.setInput({...props.input,[name]:value})
   }
 
   
@@ -23,16 +23,19 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
   function handleSubmit(e){
     const axios = require('axios')
     e.preventDefault()
+    
       if (props.editing === false){
-      axios.post('http://localhost:3000/barber_reviews', {...props.input, barber_id: selectedBarber.id, client_id: user.id})
-        .then(res=>setSelectedBarber({...selectedBarber, barber_reviews: [...selectedBarber.barber_reviews, res.data]}))
+        // debugger
+      axios.post('http://localhost:3000/barber_reviews', {...props.input, client_id: user.id})
+        .then(res=>setSelectedBarber(res.data))
+        
         props.setReviewToggle(0)
+      
     }else
     {
+      
       axios.patch(`http://localhost:3000/barber_reviews/${props.editing.id}`,{...props.input})
-      .then(res => {
-        const filteredReviews = selectedBarber.barber_reviews.filter(r=> r.id !== props.editing.id)
-          setSelectedBarber({...selectedBarber, barber_reviews: [...filteredReviews, res.data]})})
+      .then(res => setSelectedBarber(res.data))
           props.setReviewToggle(0)
         }
 
