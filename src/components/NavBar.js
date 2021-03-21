@@ -30,6 +30,8 @@ export default function NavBar(){
                 <div><img src={user.photo} className="mini-avatar" alt="user avatar"/></div>
                 <div>Welcome {user.username}</div>
                 <div><Link to={'/account-settings'}> Settings</Link></div>
+                {localStorage.type === "true" && <div><Link to={'/portfolio-settings'}> Portfolio</Link></div>}
+                
                 <div onClick={handleLogout}>Logout</div>
             </div>
             :
