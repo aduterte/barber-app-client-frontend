@@ -66,7 +66,8 @@ function App() {
         <Route exact path="/clients/:barberId"
           component={ClientDetail}/>
         <Route exact path="/login">
-            {user.username ? <Redirect to="/"/> :  <LoginContainer/>}
+            {user.username ? <Redirect to="/"/> :  
+            <LoginContainer/>}
         </Route>
         <Route exact path="/account-settings">
           <AccountSettingsContainer/>
