@@ -20,7 +20,7 @@ export default function LoginContainer(){
                 localStorage.setItem("type", input.isBarber)
             }
             else{
-                console.log(res.data.error)
+                // console.log(res.data.error)
             }
         })
         console.log("hit")
