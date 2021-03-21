@@ -177,10 +177,14 @@ function BarberDetail() {
                     </div>
                     :
                     <div>
+                      {user.id &&
+                      <div>
                     <button onClick={()=> handleCommentCreate(review.id)}>leave review</button>
           {reviewToggle === -1 &&
           <ReviewCommentForm input={cRInput} setInput={setCRInput} editing={editing} setReviewToggle={setReviewToggle}/>
           }
+          </div>
+        }
                     
                     
                     </div>

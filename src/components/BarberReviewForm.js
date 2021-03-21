@@ -25,7 +25,7 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
     e.preventDefault()
     
       if (props.editing === false){
-        // debugger
+        debugger
       axios.post('http://localhost:3000/barber_reviews', {...props.input, client_id: user.id})
         .then(res=>setSelectedBarber(res.data))
         
@@ -33,7 +33,7 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
       
     }else
     {
-      
+      debugger
       axios.patch(`http://localhost:3000/barber_reviews/${props.editing.id}`,{...props.input})
       .then(res => setSelectedBarber(res.data))
           props.setReviewToggle(0)
