@@ -15,6 +15,7 @@ import {useSetRecoilState,useRecoilState} from 'recoil'
 import {barbersState,
         clientsState,
         userState} from './atoms'
+import PortfolioSettings from './components/PortfolioSettings';
 
 function App() {
 
@@ -40,7 +41,7 @@ function App() {
     API.get(`/logins`, options)
     .then(res => {
       
-      setUser(res.data.user)
+      setUser(res.data)
     })
     }  
   }, [setUser])
@@ -70,6 +71,9 @@ function App() {
         </Route>
         <Route exact path="/account-settings">
           <AccountSettingsContainer/>
+        </Route>
+        <Route exact path="/portfolio-settings">
+          <PortfolioSettings/>
         </Route>
       </Switch>
       </div>

@@ -15,6 +15,7 @@ export default function LoginContainer(){
         API.post(`logins`, {login})
         .then(res => {
             if(!res.data.error){
+                debugger
                 setUserinfo(res.data.user)
                 localStorage.setItem("token", res.data.token)
                 localStorage.setItem("type", input.isBarber)
