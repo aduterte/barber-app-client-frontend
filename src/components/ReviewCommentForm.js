@@ -1,40 +1,36 @@
-
-
-
-
-
+import API from '../api'
+import {useState} from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil'
 import {userState,
-        selectedBarberState} from '../atoms'
+        selectedClientState} from '../atoms'
 
 export default function ReviewCommentForm(props){
-const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
+const [selectedClient, setSelectedClient] = useState(selectedClientState),
       user = useRecoilValue(userState)
 
   function handleInput(e){
   
   props.setInput({...props.input, content:e.target.value })
-  console.log(props)
+
 }
 
-  console.log(props.input)
 
  
   
   function handleSubmit(e){
-    const axios = require('axios')
+
     e.preventDefault()
       if (props.editing === false){
 
-      axios.post('http://localhost:3000/barber_review_comments', {...props.input, client_id: user.id})
-        .then(res=> {setSelectedBarber(res.data)})
-        props.setReviewToggle(0)
+      API.post('/client_review_comments', {...props.input})
+        .then(res=> props.setSelectedClient(res.data))
+        props.setReviewToggle({edit: 0, btnToggle: true})
     }else
     {
-      axios.patch(`http://localhost:3000/barber_review_comments/${props.editing.id}`,{...props.input})
-      .then(res => setSelectedBarber(res.data)
+      API.patch(`/client_review_comments/${props.editing.id}`,{...props.input})
+      .then(res => props.setSelectedClient(res.data)
         )
-          props.setReviewToggle(0)
+          props.setReviewToggle({edit: 0, btnToggle: true})
         }
 
       }

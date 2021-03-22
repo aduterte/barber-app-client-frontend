@@ -3,13 +3,13 @@
 
 
 
-import {useRecoilState, useRecoilValue} from 'recoil'
-import {userState,
-        selectedBarberState} from '../atoms'
+import {useRecoilState} from 'recoil'
+import API from '../api'
+import {selectedBarberState} from '../atoms'
 
-export default function ReviewForm(props){
-const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
-      user = useRecoilValue(userState)
+export default function BarberReviewForm(props){
+const  setSelectedBarber = useRecoilState(selectedBarberState)
+      // user = useRecoilValue(userState)
 
   function handleInput(e){
   let {name, value} = e.target
@@ -21,28 +21,25 @@ const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
  
   
   function handleSubmit(e){
-    const axios = require('axios')
+
     e.preventDefault()
     
       if (props.editing === false){
         debugger
-      axios.post('http://localhost:3000/barber_reviews', {...props.input, client_id: user.id})
-        .then(res=>setSelectedBarber(res.data))
+      API.post('/barber_reviews', {...props.input, client_id: props.user.id})
+        .then(res=>props.setSelectedBarber(res.data))
         
         props.setReviewToggle(0)
       
     }else
     {
-      debugger
-      axios.patch(`http://localhost:3000/barber_reviews/${props.editing.id}`,{...props.input})
+      API.patch(`/barber_reviews/${props.editing.id}`,{...props.input})
       .then(res => setSelectedBarber(res.data))
           props.setReviewToggle(0)
         }
 
       }
     
-
-
   return (
   
           <div>
