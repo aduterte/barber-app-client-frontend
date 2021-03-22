@@ -2,15 +2,15 @@
 import './App.css';
 import axios from 'axios';
 
-import { Route, Switch, Redirect } from "react-router-dom"
+import { Route, Switch, Redirect,Link } from "react-router-dom"
 import  {useEffect} from 'react'
 import API from './api'
 import SearchBar from './components/Searchbar'
 import BarberDetail from './components/BarberDetail'
-import ClientDetail from './components/ClientDetail'
 import LoginContainer from './containers/logincontainer'
 import NavBar from './components/NavBar';
 import AccountSettingsContainer from './containers/AccountSettingsContainer';
+import Profile from './components/Profile'
 
 import {useSetRecoilState,useRecoilState} from 'recoil'
 import {barbersState,
@@ -57,6 +57,7 @@ function App() {
           exact path="/"
           render={() => (
           <div>
+            <Link to = '/clients/8'>KanyeLink</Link>
             <SearchBar/>
             
           </div>
@@ -64,8 +65,8 @@ function App() {
         />
         <Route exact path="/barbers/:barberId"
           component={BarberDetail}/>
-        <Route exact path="/clients/:barberId"
-          component={ClientDetail}/>
+        <Route exact path="/clients/:clientId"
+          component={Profile}/>
         <Route exact path="/login">
             {user.username ? <Redirect to="/"/> :  
             <LoginContainer/>}
