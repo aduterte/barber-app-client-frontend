@@ -9,13 +9,13 @@ import {selectedClientState,
 
 
 export default function Profile(){
-  const [selectedClient, setSelectedClient] = useState(selectedClientState),
+  const [selectedClient, setSelectedClient] = useRecoilState(selectedClientState),
   barber = useRecoilValue(barbersState),
   [reviewToggle, setReviewToggle] = useState({btnToggle: true}),
   [input, setInput] = useState({content: "", rating: 0}),
   [editing,setEditing] = useState({}),
   user = useRecoilValue(userState)
-
+debugger
  
   useEffect(() => {
    
