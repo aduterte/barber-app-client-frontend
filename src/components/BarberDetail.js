@@ -4,13 +4,12 @@ import BarberReviewForm from './BarberReviewForm'
 
 import {useState ,useEffect} from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil'
-import {selectedBarberState, 
-        clientsState,
+import {clientsState,
         userState} from '../atoms'
 
 function BarberDetail() {
 
-  const [selectedBarber, setSelectedBarber] = useRecoilState(selectedBarberState),
+  const [selectedBarber, setSelectedBarber] = useState([]),
         client = useRecoilValue(clientsState),
         [reviewToggle, setReviewToggle] = useState(false),
         [input, setInput] = useState({content: "", rating: 0}),

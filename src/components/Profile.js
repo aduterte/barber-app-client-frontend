@@ -9,13 +9,13 @@ import {selectedClientState,
 
 
 export default function Profile(){
-  const [selectedClient, setSelectedClient] = useRecoilState(selectedClientState),
+  const [selectedClient, setSelectedClient] = useState({}),
   barber = useRecoilValue(barbersState),
   [reviewToggle, setReviewToggle] = useState({btnToggle: true}),
   [input, setInput] = useState({content: "", rating: 0}),
-  [editing,setEditing] = useState({}),
+ 
   user = useRecoilValue(userState)
-debugger
+
  
   useEffect(() => {
    
@@ -28,19 +28,19 @@ debugger
 
   },[setSelectedClient])
 
-  function handleCommentEditClick(comment){
-    setEditing(comment)
-    setInput({content: comment.client_review_comments[0].content, client_id: selectedClient.id})
+  function handleCommentEditClick(review){
+    // console.log("handle edit comment", review)
+
+    setInput({content: review.client_review_comments[0].content, client_id: review.client_id, id: review.client_review_comments[0].id})
     
     setReviewToggle({
-      edit: comment.id
+      edit: review.id
     })
   }
 
   function handleCommentCreate(review){
-    console.log(review)
     setReviewToggle({edit: review.id})
-    setEditing(false)
+
     setInput({content: "", client_id: selectedClient.id,client_review_id: review.id})
   }
 
@@ -70,7 +70,6 @@ debugger
           <div> {review.rating}</div>
           <div>- {barber.find(b=> review.barber_id === b.id).username}</div>
           
-            
                        {/* if the user has a comment w/o a review */}
                     {!!review.client_review_comments.length > 0?
                     <div>
@@ -90,7 +89,7 @@ debugger
                                   {reviewToggle.edit === review.id &&
                                   <div> 
                                     <button onClick = {(e)=> handleCommentDelete(e,review.client_review_comments[0].id)}>Delete</button>
-                                      <ReviewCommentForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+                                      <ReviewCommentForm input={input} setInput={setInput}  setSelectedClient = {setSelectedClient} setReviewToggle={setReviewToggle}/>
                                   </div>    
                                   }
                         </div>
@@ -105,7 +104,7 @@ debugger
                          <div>
                         <button onClick={()=> handleCommentCreate(review)}>leave review</button>
                         {reviewToggle.edit === review.id &&
-                          <ReviewCommentForm input={input} setInput={setInput} editing={editing} setSelectedClient = {setSelectedClient} setReviewToggle={setReviewToggle}/>
+                          <ReviewCommentForm input={input} setInput={setInput}  setSelectedClient = {setSelectedClient} setReviewToggle={setReviewToggle}/>
                         }
                           </div>
                          

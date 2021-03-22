@@ -1,12 +1,11 @@
 import API from '../api'
 import {useState} from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil'
-import {userState,
-        selectedClientState} from '../atoms'
+import {userState} from '../atoms'
 
 export default function ReviewCommentForm(props){
-const [selectedClient, setSelectedClient] = useState(selectedClientState),
-      user = useRecoilValue(userState)
+
+     const user = useRecoilValue(userState)
 
   function handleInput(e){
   
@@ -14,22 +13,22 @@ const [selectedClient, setSelectedClient] = useState(selectedClientState),
 
 }
 
-
+console.log(props.input.id)
  
   
   function handleSubmit(e){
 
     e.preventDefault()
-      if (props.editing === false){
+      if (!props.input.id){
 
       API.post('/client_review_comments', {...props.input})
         .then(res=> props.setSelectedClient(res.data))
+        
         props.setReviewToggle({edit: 0, btnToggle: true})
     }else
     {
-      API.patch(`/client_review_comments/${props.editing.id}`,{...props.input})
-      .then(res => props.setSelectedClient(res.data)
-        )
+      API.patch(`/client_review_comments/${props.input.id}`,{...props.input})
+      .then(res => props.setSelectedClient(res.data))
           props.setReviewToggle({edit: 0, btnToggle: true})
         }
 
