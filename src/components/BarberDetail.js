@@ -9,13 +9,12 @@ import {clientsState,
 
 function BarberDetail() {
 
-  const [selectedBarber, setSelectedBarber] = useState([]),
+  const [selectedBarber, setSelectedBarber] = useState({}),
         client = useRecoilValue(clientsState),
-        [reviewToggle, setReviewToggle] = useState(false),
+        [reviewToggle, setReviewToggle] = useState({btnToggle: true}),
         [input, setInput] = useState({content: "", rating: 0}),
         [editing,setEditing] = useState({}),
         user = useRecoilValue(userState)
-
 
 
 
@@ -37,10 +36,11 @@ function BarberDetail() {
     e.preventDefault()
     axios.delete(`http://localhost:3000/barber_reviews/${id}`)
     .then(setSelectedBarber({...selectedBarber, barber_reviews: [...selectedBarber.barber_reviews.filter(r=> r.id !== id)]}));
+    setReviewToggle({edit: 0, btnToggle: true})
   }
 
   function handleCreateToggle(){
-    setReviewToggle(-1)
+    setReviewToggle({edit: -1})
     setEditing(false)
     setInput({content: "", rating: 0, barber_id: selectedBarber.id})
   
@@ -50,7 +50,7 @@ function BarberDetail() {
   function handleEditClick(review){
     
     setEditing(review)
-    setInput({content: review.content, rating: review.rating, barber_id: selectedBarber.id })
+    setInput({content: review.content, rating: review.rating, barber_id: selectedBarber.id, id:review.id })
     
     setReviewToggle({
       edit: review.id
@@ -58,7 +58,6 @@ function BarberDetail() {
     
   }
 
-  // console.log(input)
 
   function userReviewOnTop(){
     if(!!user.id&& selectedBarber.barber_reviews.filter(r=>r.client_id === user.id).length>0){
@@ -73,11 +72,10 @@ function BarberDetail() {
   }
 
 
-  return ( !selectedBarber ? null : (
+  return ( !selectedBarber.id ? null : (
     
   <div>
 
-    {/* if the user is loged in as aclient they see the first one */}
   
     <div>
     <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
@@ -86,8 +84,12 @@ function BarberDetail() {
    {!selectedBarber.barber_reviews.filter(r=>r.client_id === user.id).length>0 && !!user.id && 
    <div>
     <button onClick={()=> handleCreateToggle(-1)}>leave review</button>
-          {reviewToggle === -1 &&
-          <BarberReviewForm input={input} setInput = {setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+          {reviewToggle.edit === -1 &&
+          <BarberReviewForm input={input} 
+                            setInput = {setInput} 
+                            setSelectedBarber = {setSelectedBarber} 
+                            setReviewToggle={setReviewToggle}
+                            user = {user}/>
           }
       </div> }
 
@@ -101,12 +103,20 @@ function BarberDetail() {
                     {/* make sure that user is logged in and wrote the comment to allow edit capabilities */}
                     {!!user.id && user.id === review.client_id && 
                       <div>
-                        <button onClick = {()=>handleEditClick(review)}> edit</button> 
+                        {reviewToggle.btnToggle&&
+                        <div>
+                        <button onClick = {()=>handleEditClick(review)}> edit</button>
+                        </div> 
+}
                                 {/*handles form and deletetoggle */}
                                 {reviewToggle.edit === review.id &&
                                 <div> 
                                   <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
-                                    <BarberReviewForm input={input} setInput={setInput} editing={editing} setReviewToggle={setReviewToggle}/>
+                                    <BarberReviewForm input={input} 
+                                                      setInput={setInput} 
+                                                      setSelectedBarber = {setSelectedBarber} 
+                                                      editing={editing} 
+                                                      setReviewToggle={setReviewToggle}/>
                                 </div>}
                       </div>
                       }

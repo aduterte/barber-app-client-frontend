@@ -1,11 +1,7 @@
 import API from '../api'
-import {useState} from 'react'
-import {useRecoilState, useRecoilValue} from 'recoil'
-import {userState} from '../atoms'
+
 
 export default function ReviewCommentForm(props){
-
-     const user = useRecoilValue(userState)
 
   function handleInput(e){
   

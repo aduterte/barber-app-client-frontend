@@ -8,8 +8,8 @@ import API from '../api'
 import {selectedBarberState} from '../atoms'
 
 export default function BarberReviewForm(props){
-const  setSelectedBarber = useRecoilState(selectedBarberState)
-      // user = useRecoilValue(userState)
+// const  setSelectedBarber = useRecoilState(selectedBarberState)
+//       // user = useRecoilValue(userState)
 
   function handleInput(e){
   let {name, value} = e.target
@@ -24,18 +24,18 @@ const  setSelectedBarber = useRecoilState(selectedBarberState)
 
     e.preventDefault()
     
-      if (props.editing === false){
-        debugger
+      if (!props.input.id){
+     
       API.post('/barber_reviews', {...props.input, client_id: props.user.id})
         .then(res=>props.setSelectedBarber(res.data))
         
-        props.setReviewToggle(0)
+        props.setReviewToggle({edit: 0, btnToggle: true})
       
     }else
     {
-      API.patch(`/barber_reviews/${props.editing.id}`,{...props.input})
-      .then(res => setSelectedBarber(res.data))
-          props.setReviewToggle(0)
+      API.patch(`/barber_reviews/${props.input.id}`,{...props.input})
+      .then(res => props.setSelectedBarber(res.data))
+      props.setReviewToggle({edit: 0, btnToggle: true})
         }
 
       }
