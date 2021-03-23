@@ -20,7 +20,8 @@
       let data = {client_id: user.id, barber_id: props.selectedBarber.id, b_accepted:false, c_accepted:true, date:date, completed: false}
       API.post("/appointments", data)
       .then(res => {
-          console.log(res.data.date)
+          setUser({...user, appointments: [...user.appointments, res.data]})
+          console.log(res.data)
       })
     }
 
@@ -31,8 +32,10 @@
       const myAppts = user.appointments.filter(a=> a.barber.id === props.selectedBarber.id)
       return myAppts.filter(appt=>appt.b_accepted===false)
     }
+
+
  
-    console.log(user.appointments)
+    console.log("barber is", props.selectedBarber, "user is", user)
 
       return( user&&
         <div>
@@ -40,7 +43,8 @@
             <DateTimePicker minDate={new Date()} disableClock={true} onChange={setDate} value={date}/>
            
             <div>
-                {user.appointments.filter(a=> a.barber_id === props.selectedBarber.id)>0 &&
+              
+                {!user.appointments.filter(a=> a.barber.id === props.selectedBarber.id).length > 0 &&
                 <div onClick={makeAppointment}>Create an appointment with {props.selectedBarber.first_name} for: {`${date}`} </div>
                 }
             </div>
