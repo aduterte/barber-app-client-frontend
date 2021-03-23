@@ -1,6 +1,6 @@
 import API from '../api'
-import Reviews from '../components/Reviews'
-import AppointmentsComponent from '../components/AppointmentsComponent';
+import ProfileReviews from '../components/ProfileReviews'
+import UserAppointments from '../components/UserAppointments';
 import {useRecoilValue} from "recoil"
 import {userState} from "../atoms"
 import React, {useState , useEffect} from 'react'
@@ -42,10 +42,10 @@ function selectAppointments() {
         <div onClick={selectReviews}>My Reviews</div>
         <div onClick={selectAppointments}>My Appointments</div>
 
-    {isReviews && <Reviews 
+    {isReviews && <ProfileReviews 
                     selectedClient = {selectedClient}
                     setSelectedClient = {setSelectedClient}/>}
-    {isAppointments && <AppointmentsComponent/>}
+    {isAppointments && <UserAppointments/>}
 </div>
   )
 }

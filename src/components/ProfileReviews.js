@@ -1,5 +1,5 @@
 import API from '../api'
-import ReviewCommentForm from './ReviewCommentForm'
+import ClientReviewCommentForm from './ClientReviewCommentForm'
 
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -20,7 +20,7 @@ export default function BarberReviewForm(props){
   function handleCommentEditClick(review){
     // console.log("handle edit comment", review)
 
-    setInput({content: review.client_review_comments[0].content, client_id: review.client_id, id: review.client_review_comments[0].id})
+    setInput({content: review.client_review_comments[0].content, client_id: review.client.id, id: review.client_review_comments[0].id})
     
     setReviewToggle({
       edit: review.id
@@ -72,7 +72,7 @@ export default function BarberReviewForm(props){
                                   {reviewToggle.edit === review.id &&
                                   <div> 
                                     <button onClick = {(e)=> handleCommentDelete(e,review.client_review_comments[0].id)}>Delete</button>
-                                      <ReviewCommentForm input={input} setInput={setInput}  setSelectedClient = {props.setSelectedClient} setReviewToggle={setReviewToggle}/>
+                                      <ClientReviewCommentForm input={input} setInput={setInput}  setSelectedClient = {props.setSelectedClient} setReviewToggle={setReviewToggle}/>
                                   </div>    
                                   }
                         </div>
@@ -81,7 +81,7 @@ export default function BarberReviewForm(props){
                     <div>
                         <button onClick={()=> handleCommentCreate(review)}>leave review</button>
                         {reviewToggle.edit === review.id &&
-                          <ReviewCommentForm input={input} setInput={setInput}  setSelectedClient = {props.setSelectedClient} setReviewToggle={setReviewToggle}/>
+                          <ClientReviewCommentForm input={input} setInput={setInput}  setSelectedClient = {props.setSelectedClient} setReviewToggle={setReviewToggle}/>
                         }
                     </div>
                     }

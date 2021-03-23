@@ -34,7 +34,8 @@ export default function BarberReviewForm(props){
     }else
     {
       API.patch(`/barber_reviews/${props.input.id}`,{...props.input})
-      .then(res => props.setSelectedBarber(res.data))
+      .then(res => console.log(res.data, "props.selectedBarber",props.selectedBarber))
+      // debugger
       props.setReviewToggle({edit: 0, btnToggle: true})
         }
 
