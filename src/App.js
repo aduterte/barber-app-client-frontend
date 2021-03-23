@@ -10,7 +10,7 @@ import BarberDetail from './components/BarberDetail'
 import LoginContainer from './containers/logincontainer'
 import NavBar from './components/NavBar';
 import AccountSettingsContainer from './containers/AccountSettingsContainer';
-import Profile from './components/Profile'
+import Profile from './containers/Profile'
 
 import {useSetRecoilState,useRecoilState} from 'recoil'
 import {barbersState,
@@ -55,13 +55,7 @@ function App() {
       <Switch>      
         <Route
           exact path="/"
-          render={() => (
-          <div>
-            <Link to = '/clients/8'>KanyeLink</Link>
-            <SearchBar/>
-            
-          </div>
-          )} 
+          component={SearchBar} 
         />
         <Route exact path="/barbers/:barberId"
           component={BarberDetail}/>
