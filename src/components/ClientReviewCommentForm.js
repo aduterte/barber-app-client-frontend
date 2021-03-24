@@ -1,10 +1,10 @@
 import API from '../api'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import {userState} from '../atoms'
 
 
 export default function ReviewCommentForm(props){
-  const user = useRecoilValue(userState)
+  const [user, setUser] = useRecoilState(userState)
 
   function handleInput(e){
   
@@ -21,23 +21,19 @@ console.log(props.input.id)
       if (!props.input.id){
 
       API.post('/client_review_comments', {...props.input})
-        .then(res=> {
-          let i =  props.user.client_reviews.indexOf(props.review)
-          let reviews = [props.user.client_reviews]
-          console.log(user)
+        .then(res=> {  
+                      let i = user.client_reviews.indexOf(props.review)
+                      let array = [...user.client_reviews]
+                      array[i] = {...array[i], client_review_comment: res.data}
+                      setUser({...user, client_reviews: array })
+                    })
 
-          // props.setuser(res.data)
-          
-          })
-        
-        props.setReviewToggle({edit: 0, btnToggle: true})
-    }else
+          props.setReviewToggle({edit: 0, btnToggle: true})
+      }else
     {
       API.patch(`/client_review_comments/${props.input.id}`,{...props.input})
       .then(res => { 
-         let i =  props.user.client_reviews.indexOf(props.review)
-        let reviews = [props.user.client_reviews]
-        console.log(user)
+        
 })
           props.setReviewToggle({edit: 0, btnToggle: true})
         }

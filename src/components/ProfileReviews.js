@@ -20,8 +20,8 @@ export default function BarberReviewForm(props){
 
   function handleCommentEditClick(review){
     // console.log("handle edit comment", review)
-
-    setInput({content: review.client_review_comments.content, client_id: review.client.id, id: review.client_review_comments.id})
+console.log(user)
+    setInput({content: review.client_review_comments.content, client_id: user.id, id: review.client_review_comments.id})
     
     setReviewToggle({
       edit: review.id
@@ -36,8 +36,9 @@ export default function BarberReviewForm(props){
 
   function handleCommentDelete(e,id){
     e.preventDefault()
-    API.delete(`/client_review_comments/${id}`,{data: {client_id: user.id}})
-    .then(res=> {props.setUser(res.data)});
+    API.delete(`/client_review_comments/${id}`)
+    .then(res=> { console.log(res.data)
+    })
     setReviewToggle({edit: 0, btnToggle: true})
   }
 
@@ -72,7 +73,7 @@ export default function BarberReviewForm(props){
                                   {/*handles form and deletetoggle */}
                                   {reviewToggle.edit === review.id &&
                                   <div> 
-                                    <button onClick = {(e)=> handleCommentDelete(e,review.client_review_comments.id)}>Delete</button>
+                                    <button onClick = {(e)=> handleCommentDelete(e,review.client_review_comments[0].id)}>Delete</button>
                                       <ClientReviewCommentForm 
                                           input={input} 
                                           setInput={setInput}  
