@@ -32,7 +32,6 @@ export default function LoginContainer(){
         let {name, value} = e.target
         name !== "isBarber" ? setInput({...input, [name]: value}) : setInput({...input, isBarber: !input.isBarber})
       
-        console.log(input)
     }
 
     function handleLogout(){

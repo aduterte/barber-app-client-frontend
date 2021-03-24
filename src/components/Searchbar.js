@@ -29,7 +29,6 @@ useEffect(() =>{
   ) 
     },[searchText, barbers])
 
-
   return (
   
           <div>

@@ -2,11 +2,11 @@
 import './App.css';
 import axios from 'axios';
 
-import { Route, Switch, Redirect,Link } from "react-router-dom"
+import { Route, Switch, Redirect } from "react-router-dom"
 import  {useEffect} from 'react'
 import API from './api'
 import SearchBar from './components/Searchbar'
-import BarberDetail from './components/BarberDetail'
+import BarberDetail from './containers/BarberDetail'
 import LoginContainer from './containers/logincontainer'
 import NavBar from './components/NavBar';
 import AccountSettingsContainer from './containers/AccountSettingsContainer';

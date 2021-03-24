@@ -21,24 +21,30 @@ export default function BarberReviewForm(props){
  
   
   function handleSubmit(e){
-
+// console.log(props.selectedBarber)
     e.preventDefault()
-    
-      if (!props.input.id){
-     
-      API.post('/barber_reviews', {...props.input, client_id: props.user.id})
-        .then(res=>props.setSelectedBarber(res.data))
-        
-        props.setReviewToggle({edit: 0, btnToggle: true})
-      
-    }else
-    {
-      API.patch(`/barber_reviews/${props.input.id}`,{...props.input})
-      .then(res => props.setSelectedBarber(res.data))
-      props.setReviewToggle({edit: 0, btnToggle: true})
-        }
 
+      if (!props.input.id){
+        API.post('/barber_reviews', {...props.input, client_id: props.user.id})
+          .then(res=>{
+            props.setSelectedBarber({...props.selectedBarber, barber_reviews: [...props.selectedBarber.barber_reviews, res.data]})
+          })
+          props.setReviewToggle({edit: 0, btnToggle: true}) 
+      }else
+      {
+      API.patch(`/barber_reviews/${props.input.id}`,{...props.input})
+        .then(res =>{
+      
+          let filtered = props.selectedBarber.barber_reviews.filter(r=> r.id !== res.data.id)
+          props.setSelectedBarber({...props.selectedBarber, barber_reviews: [...filtered, res.data]})
+          // console.log({...props.selectedBarber, barber_reviews: [...filtered, res.data]}, props.selectedBarber)
+        })
+
+      } 
+      // debugger
+      props.setReviewToggle({edit: 0, btnToggle: true})
       }
+    
     
   return (
   
