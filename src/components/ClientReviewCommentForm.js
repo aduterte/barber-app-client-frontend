@@ -33,6 +33,10 @@ console.log(props.input.id)
     {
       API.patch(`/client_review_comments/${props.input.id}`,{...props.input})
       .then(res => { 
+        let i = user.client_reviews.indexOf(props.review)
+        let array = [...user.client_reviews]
+        array[i] = {...array[i], client_review_comment: res.data}
+        setUser({...user, client_reviews: array })
         
 })
           props.setReviewToggle({edit: 0, btnToggle: true})

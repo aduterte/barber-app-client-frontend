@@ -10,20 +10,21 @@ export default function BarberReviews(props) {
   const client = useRecoilValue(clientsState),
   [reviewToggle, setReviewToggle] = useState({btnToggle: true}),
   [input, setInput] = useState({content: "", rating: 0}),
-  [editing,setEditing] = useState({}),
   user = useRecoilValue(userState)
 
 
-  function handleDelete(e,id){
+  function handleDelete(e,review){
     e.preventDefault()
-    API.delete(`/barber_reviews/${id}`)
-    .then(props.setSelectedBarber({...props.selectedBarber, barber_reviews: [...props.selectedBarber.barber_reviews.filter(r=> r.id !== id)]}));
-    setReviewToggle({edit: 0, btnToggle: true})
+    API.delete(`/barber_reviews/${review.id}`)
+      
+    const filtered = props.selectedBarber.barber_reviews.filter(r=> r.id !== review.id)
+      props.setSelectedBarber({...props.selectedBarber, barber_reviews: filtered })
+      setReviewToggle({edit: 0, btnToggle: true})
+    
   }
 
   function handleCreateToggle(){
     setReviewToggle({edit: -1})
-    setEditing(false)
     setInput({content: "", rating: 0, barber_id: props.selectedBarber.id})
   
   }
@@ -31,14 +32,14 @@ export default function BarberReviews(props) {
 
   function handleEditClick(review){
     
-    setEditing(review)
+ 
     setInput({content: review.content, rating: review.rating, barber_id: props.selectedBarber.id, id:review.id })
     setReviewToggle({
       edit: review.id
     })
   }
   function userReviewOnTop(){
-    if(!!user.id&& props.selectedBarber.barber_reviews.filter(r=>r.client.id === user.id).length>0){
+    if(user.id&& props.selectedBarber.barber_reviews.filter(r=>r.client.id === user.id).length>0){
       let reviews = props.selectedBarber.barber_reviews
       let newReviews = reviews.filter(review => review.client.id !== user.id);
 
@@ -83,12 +84,11 @@ export default function BarberReviews(props) {
                                   {/*handles form and deletetoggle */}
                                   {reviewToggle.edit === review.id &&
                                   <div> 
-                                    <button onClick = {(e)=> handleDelete(e,review.id)}>Delete</button>
+                                    <button onClick = {(e)=> handleDelete(e,review)}>Delete</button>
                                       <BarberReviewForm input={input} 
                                                         setInput={setInput} 
                                                         setSelectedBarber = {props.setSelectedBarber} 
                                                         selectedBarber = {props.selectedBarber}
-                                                        editing={editing} 
                                                         setReviewToggle={setReviewToggle}/>
                                   </div>}
                         </div>

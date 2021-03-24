@@ -24,7 +24,6 @@ function selectAppointments() {
     setIsAppointments(true)
 }
   
- console.log(user)
 
   return(!!user.id &&
 <div>
@@ -32,9 +31,7 @@ function selectAppointments() {
         <div onClick={selectReviews}>My Reviews</div>
         <div onClick={selectAppointments}>My Appointments</div>
 
-    {isReviews && <ProfileReviews 
-                    user = {user}
-                    setUser = {setUser}/>}
+    {isReviews && <ProfileReviews/>}
     {isAppointments && <UserAppointments/>}
 </div>
   )

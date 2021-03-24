@@ -2,7 +2,7 @@ import API from '../api'
 import ClientReviewCommentForm from './ClientReviewCommentForm'
 
 import { useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import {barbersState,
         userState} from '../atoms'
 
@@ -12,16 +12,16 @@ export default function BarberReviewForm(props){
   const [reviewToggle, setReviewToggle] = useState({btnToggle: true}),
   [input, setInput] = useState({content: "", rating: 0}),
    barber = useRecoilValue(barbersState),
-   user = useRecoilValue(userState)
+  [user, setUser] = useRecoilState(userState)
 
 
 
-
+console.log(user)
 
   function handleCommentEditClick(review){
     // console.log("handle edit comment", review)
-console.log(user)
-    setInput({content: review.client_review_comments.content, client_id: user.id, id: review.client_review_comments.id})
+// console.log(user)
+    setInput({content: review.client_review_comment.content, client_id: user.id, id: review.client_review_comment.id})
     
     setReviewToggle({
       edit: review.id
@@ -34,14 +34,18 @@ console.log(user)
     setInput({content: "", client_id: user.id,client_review_id: review.id})
   }
 
-  function handleCommentDelete(e,id){
+  function handleCommentDelete(e,review){
     e.preventDefault()
-    API.delete(`/client_review_comments/${id}`)
-    .then(res=> { console.log(res.data)
-    })
+    API.delete(`/client_review_comments/${review.client_review_comment.id}`)
+    
+      let i = user.client_reviews.indexOf(review)
+      let array = [...user.client_reviews]
+      array[i] = {...array[i], client_review_comment:null}
+      setUser({...user, client_reviews: array })
     setReviewToggle({edit: 0, btnToggle: true})
   }
-
+  
+  
   
   return(
 <div>
@@ -49,17 +53,18 @@ console.log(user)
     {user.client_reviews.map(review=>
           
       <div key={review.id}>
+        {/* {console.log(review.client_review_comment[0])} */}
         <p></p>
         <p></p>
           <div>"{review.content}"</div>
           <div> {review.rating}</div>
-          <div>- {barber.find(b=> review.barber_id === b.id).username}</div>
+          <div>- {review.barber.username}</div>
           
                       {/* if the user has a comment w/o a review */}
-                    {!!review.client_review_comments.length > 0?
+                    {!!review.client_review_comment?
                     <div>
                       <p></p>
-                    <div> {review.client_review_comments.content}</div>
+                    <div> {review.client_review_comment.content}</div>
                     <div>**{user.username}**</div>
                   
                   
@@ -73,7 +78,7 @@ console.log(user)
                                   {/*handles form and deletetoggle */}
                                   {reviewToggle.edit === review.id &&
                                   <div> 
-                                    <button onClick = {(e)=> handleCommentDelete(e,review.client_review_comments[0].id)}>Delete</button>
+                                    <button onClick = {(e)=> handleCommentDelete(e,review)}>Delete</button>
                                       <ClientReviewCommentForm 
                                           input={input} 
                                           setInput={setInput}  
@@ -90,7 +95,6 @@ console.log(user)
                           <ClientReviewCommentForm 
                               input={input} 
                               setInput={setInput}  
-                         
                               review = {review} 
                               setReviewToggle={setReviewToggle}/>
                         }
