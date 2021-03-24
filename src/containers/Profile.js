@@ -1,28 +1,18 @@
 import API from '../api'
 import ProfileReviews from '../components/ProfileReviews'
 import UserAppointments from '../components/UserAppointments';
-import {useRecoilValue} from "recoil"
+import {useRecoilState} from "recoil"
 import {userState} from "../atoms"
-import React, {useState , useEffect} from 'react'
+import React, {useState} from 'react'
 
 
 
 export default function Profile(){
-  const [selectedClient, setSelectedClient] = useState({}),
-         user = useRecoilValue(userState),
+  const [user, setUser] = useRecoilState(userState),
         [isReviews, setIsReviews] = useState(false),
         [isAppointments, setIsAppointments] = useState(false)
 
-  useEffect(() => {
-   
-    const str = window.location.pathname;
-    const n = str.lastIndexOf('/');
-    const index = str.substring(n + 1);
 
-    API.get(`/clients/${index}`)
-    .then(res => setSelectedClient(res.data) )
-
-  },[setSelectedClient])
 
   function selectReviews(){
     setIsReviews(true)
@@ -34,17 +24,17 @@ function selectAppointments() {
     setIsAppointments(true)
 }
   
- 
+ console.log(user)
 
-  return(!!selectedClient.id &&
+  return(!!user.id &&
 <div>
-    <h1>Welcome, {selectedClient.first_name} {selectedClient.last_name} </h1>
+    <h1>Welcome, {user.first_name} {user.last_name} </h1>
         <div onClick={selectReviews}>My Reviews</div>
         <div onClick={selectAppointments}>My Appointments</div>
 
     {isReviews && <ProfileReviews 
-                    selectedClient = {selectedClient}
-                    setSelectedClient = {setSelectedClient}/>}
+                    user = {user}
+                    setUser = {setUser}/>}
     {isAppointments && <UserAppointments/>}
 </div>
   )

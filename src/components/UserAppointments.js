@@ -20,7 +20,7 @@ export default function UserAppointmentsComponent(){
           
 
        
-          console.log(user.appointments)
+          console.log(user)
       
       return( user&&
         <div>

@@ -35,8 +35,7 @@
 
 
  
-    console.log("barber is", props.selectedBarber, "user is", user)
-
+  
       return( user&&
         <div>
           <p></p>

@@ -94,10 +94,10 @@ export default function BarberReviews(props) {
                         </div>
                         }
                   
-                      {!!review.barber_review_comments[0]  &&
+                      {!!review.barber_review_comments  &&
                         <div>
                           
-                        <div> {review.barber_review_comments[0].content}</div>
+                        <div> {review.barber_review_comments.content}</div>
                         <div>**{props.selectedBarber.username}**</div>
                         </div>
                       }

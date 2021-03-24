@@ -32,4 +32,10 @@ export const selectedBarberState = atom({
   default: {}
 })
 
+// export const clientReviewsState = atom({
+//   key: "clientReviewsState",
+//   default: {}
+// })
+
+
 

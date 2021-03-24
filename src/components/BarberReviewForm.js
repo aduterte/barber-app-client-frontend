@@ -25,21 +25,19 @@ export default function BarberReviewForm(props){
     e.preventDefault()
     
       if (!props.input.id){
-     
-      API.post('/barber_reviews', {...props.input, client_id: props.user.id})
-        .then(res=>props.setSelectedBarber(res.data))
-        
-        props.setReviewToggle({edit: 0, btnToggle: true})
-      
-    }else
-    {
+        API.post('/barber_reviews', {...props.input, client_id: props.user.id})
+          .then(res=>{console.log(res.data)})
+          props.setReviewToggle({edit: 0, btnToggle: true}) 
+      }else
+      {
       API.patch(`/barber_reviews/${props.input.id}`,{...props.input})
-      .then(res => console.log(res.data, "props.selectedBarber",props.selectedBarber))
+      .then(res =>console.log(res.data, "props.selectedBarber",props.selectedBarber))
+
+      } 
       // debugger
       props.setReviewToggle({edit: 0, btnToggle: true})
-        }
-
       }
+    
     
   return (
   
