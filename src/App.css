@@ -9,10 +9,17 @@ html {
   /* padding: 10px; */
   align-items: center;
   color: white;
-  background-color: black;
+  background-color: rgb(15, 13, 43);
   height: 60px;
 }
 
+.home-icon{
+  color:white;
+  font-family: 'Satisfy', cursive;
+  font-size: 40px;
+  font-weight: bold;
+  margin-left: 20px;
+}
 #nav-bar-left {
   display: flex;
   justify-content: left;
@@ -33,6 +40,13 @@ html {
   width: 40px;
   border-radius: 20px;
 }
+
+.medium-avatar {
+  width:150px;
+  border-radius: 75px;
+}
+
+
 
 .medium-avatar {
   width:150px;
@@ -88,4 +102,27 @@ html {
 .account-details-username {
   margin-left: 10px;
   font-size: 60px;
+}
+
+#profile-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.profile-left {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  border: rgb(155, 155, 155) solid 1px;
+  background-color:rgb(15, 13, 43);
+  border-radius: 15px;
+  color:white;
+  font-weight: bold;
+  height: calc(100vh - 150px);
+  /* width: 200px; */
+}
+
+.profile-right {
+  margin-left: 10px;
 }

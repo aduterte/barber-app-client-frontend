@@ -16,11 +16,9 @@ export default function BarberReviewForm(props){
 
 
 
-console.log(user)
+
 
   function handleCommentEditClick(review){
-    // console.log("handle edit comment", review)
-// console.log(user)
     setInput({content: review.client_review_comment.content, client_id: user.id, id: review.client_review_comment.id})
     
     setReviewToggle({
@@ -53,7 +51,6 @@ console.log(user)
     {user.client_reviews.map(review=>
           
       <div key={review.id}>
-        {/* {console.log(review.client_review_comment[0])} */}
         <p></p>
         <p></p>
           <div>"{review.content}"</div>

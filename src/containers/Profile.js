@@ -26,13 +26,16 @@ function selectAppointments() {
   
 
   return(!!user.id &&
-<div>
+<div id="profile-container">
+  <div className="profile-left" >
     <h1>Welcome, {user.first_name} {user.last_name} </h1>
         <div onClick={selectReviews}>My Reviews</div>
         <div onClick={selectAppointments}>My Appointments</div>
-
+  </div>
+  <div className="profile-right">
     {isReviews && <ProfileReviews/>}
     {isAppointments && <UserAppointments/>}
+  </div>
 </div>
   )
 }

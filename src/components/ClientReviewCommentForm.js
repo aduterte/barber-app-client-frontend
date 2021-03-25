@@ -12,7 +12,6 @@ export default function ReviewCommentForm(props){
 
 }
 
-console.log(props.input.id)
  
   
   function handleSubmit(e){
