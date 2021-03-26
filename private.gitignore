@@ -1,0 +1,66 @@
+
+
+client id:
+698558363589-jhh4v3dhf3tdhfmk1jobg1jcuj3p47tr.apps.googleusercontent.com
+
+client secret
+RA57Ux4lWiyCNvsLX-D1aief
+
+const { google } = require('googleapis')
+// const  { calendar } from 'googleapis/build/src/apis/calendar';
+const { OAuth2 } =  google.auth
+const oAuth2Client = new OAuth2('698558363589-jhh4v3dhf3tdhfmk1jobg1jcuj3p47tr.apps.googleusercontent.com'
+, 'RA57Ux4lWiyCNvsLX-D1aief' )
+
+oAuth2Client.setCredentials({refresh_token: '1//04v93I00VB6daCgYIARAAGAQSNwF-L9Iri4_3vNFeK-hEE21C6RAVCQ5out-QJHaJ0snLMpY8ngUJ4FGjoMOw__85IwDKgDGu4v0'})
+
+const calendar = google.calendar({version: 'v3', auth: oAuth2Client})
+const eventStartTime = new Date()
+eventStartTime.setDate(eventStartTime.getDay()+5)
+
+const eventEndTime = new Date()
+eventEndTime.setDate(eventEndTime.getDay()+2)
+eventEndTime.setMinutes(eventEndTime.getMinutes() +45)
+
+const event ={
+  summary: "testing",
+  location: '14510 manor park dr, Rockville, MD 20853',
+  description: "im testing this gc app, i hope it works",
+  start: {
+    dateTime: eventStartTime,
+    timeZone: 'America/New_York'
+  },
+  end: {
+    dateTime: eventEndTime,
+    timeZone: 'America/New_York'
+  },
+  colorId: 1,
+}
+
+// method to check if the artist is busy durin this time
+calendar.freebusy.query(
+  {
+    resource: {
+      timeMin: eventStartTime,
+      timeMax: eventEndTime,
+      timeZone: 'America/New_York',
+      // if they have multiple calendars, the cal id's can be put here to check all calendars to see if they are busy
+      items: [{id: 'primary'}]
+    },
+  }, (err,res)=> {
+    if(err) return console.error('Free Busy Query Error', err)
+
+    const eventsArr = res.data.calendars.primary.busy
+
+    if(eventsArr.length ===0 ) 
+    return calendar.events.insert(
+      { calendarId: 'primary', resource: event }, 
+        err => {
+          if (err) return console.error('Calendar Event Creation Error:', err)
+          
+          return console.log('Calendar Event Created')
+        }
+        )
+        return console.log(`Sorry I'm Busy`)
+  }
+  )
