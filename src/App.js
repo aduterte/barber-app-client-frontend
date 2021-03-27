@@ -15,13 +15,15 @@ import Profile from './containers/Profile'
 import {useSetRecoilState,useRecoilState} from 'recoil'
 import {barbersState,
         clientsState,
-        userState} from './atoms'
+        userState,
+        conversationsAtom} from './atoms'
 import PortfolioSettings from './components/PortfolioSettings';
 
 function App() {
 
   const setClients = useSetRecoilState(clientsState),
         setBarbers = useSetRecoilState(barbersState),
+        setConversations = useSetRecoilState(conversationsAtom),
         [user,setUser] = useRecoilState(userState)
 
 
@@ -43,9 +45,10 @@ function App() {
     .then(res => {
       
       setUser(res.data)
+      setConversations(res.data.conversations)
     })
     }  
-  }, [setUser])
+  }, [setUser, setConversations])
 
 
   return (
