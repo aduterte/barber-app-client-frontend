@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {createContext} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom'
 import { RecoilRoot } from 'recoil';
+import actionCable from "actioncable"
+
+const CableApp = {}
+CableApp.cable = actionCable.createConsumer('ws://localhost:3000/cable') // change to whatever port your server uses
+export const ActionCableContext = createContext()
 
 ReactDOM.render(
   <Router>
     <RecoilRoot>
-      <App/>
+      <ActionCableContext.Provider value={CableApp.cable}>
+          <App />
+        </ActionCableContext.Provider>  
     </RecoilRoot>
   </Router>,
   document.getElementById('root')

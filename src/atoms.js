@@ -1,4 +1,4 @@
-import { atom  }from 'recoil'
+import { atom, selectorFamily  }from 'recoil'
 
 export const searchTextState = atom({
   key: "searchText",
@@ -30,6 +30,20 @@ export const selectedBarberState = atom({
  export const userState = atom({
   key: "userState",
   default: {}
+})
+
+export const conversationsAtom = atom({
+  key: "conversationsAtom",
+  default: []
+})
+
+export const convoSelector = selectorFamily({
+  key: "convoSelector",
+  get: id => ({get}) => { 
+    let convos = get(conversationsAtom)
+    return convos.filter(convo => convo.id === id)[0]
+  }
+ 
 })
 
 // export const clientReviewsState = atom({
