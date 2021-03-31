@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {userState} from '../atoms'
+import {userState, apptsState} from '../atoms'
 import {useRecoilState} from 'recoil'
 import API from "../api"
 import AppointmentDetails from './AppointmentDetails';
@@ -12,7 +12,8 @@ export default function UserAppointmentsComponent(){
 
     const [user,setUser] = useRecoilState(userState),
           [date, setDate] = useState(new Date()),
-          [approvedAppts, setApprovedAppts]= useState([])
+          [approvedAppts, setApprovedAppts]= useState([]),
+          [appts,setAppts]= useRecoilState(apptsState)
     
     function acceptAppt(appt){
       API.patch(`/appointments/${appt.id}`,{c_accepted: true, b_accepted: true, date: appt.date})
@@ -27,23 +28,23 @@ export default function UserAppointmentsComponent(){
       let filteredAppts = user.appointments.filter(oldAppts => oldAppts.id !== appt.id)
       setUser({...user, appointments: [...filteredAppts]})
     }  
-   console.log(user)
+  //  console.log(user)
     
   useEffect(() => {
-    setApprovedAppts(user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
+    setAppts(user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
   
-  },[setApprovedAppts])
+  },[setAppts])
      
         
 
 
        
-          console.log(user)
+          // console.log(user)
       
       return( user.appointments &&
         <div>
             
-            <Calendar appts = {approvedAppts}/>
+            <Calendar />
             <DateTimePicker minDate={new Date()} disableClock={true} onChange={setDate} value={date}/>
                 
                 <div>
