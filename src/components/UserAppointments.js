@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {userState, apptsState} from '../atoms'
+import {userState, approvedApptsState} from '../atoms'
 import {useRecoilState} from 'recoil'
 import API from "../api"
 import AppointmentDetails from './AppointmentDetails';
@@ -12,8 +12,8 @@ export default function UserAppointmentsComponent(){
 
     const [user,setUser] = useRecoilState(userState),
           [date, setDate] = useState(new Date()),
-          [approvedAppts, setApprovedAppts]= useState([]),
-          [appts,setAppts]= useRecoilState(apptsState)
+          [approvedAppts, setApprovedAppts]= useRecoilState(approvedApptsState)
+          
     
     function acceptAppt(appt){
       API.patch(`/appointments/${appt.id}`,{c_accepted: true, b_accepted: true, date: appt.date})
@@ -31,9 +31,9 @@ export default function UserAppointmentsComponent(){
   //  console.log(user)
     
   useEffect(() => {
-    setAppts(user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
+    setApprovedAppts(user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
   
-  },[setAppts])
+  },[setApprovedAppts])
      
         
 
