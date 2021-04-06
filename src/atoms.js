@@ -32,7 +32,6 @@ export const selectedBarberState = atom({
  })
 
 
-
  export const userState = atom({
   key: "userState",
   default: {}
