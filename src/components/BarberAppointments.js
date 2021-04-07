@@ -16,20 +16,18 @@
             [date, setDate] = useState(new Date()),
             [approvedAppts, setApprovedAppts]= useRecoilState(approvedApptsState)
 
-
     useEffect(() => {
-      setApprovedAppts(user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
+      setApprovedAppts(props.selectedBarber.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
     
-    },[setApprovedAppts])
-    console.log(approvedAppts)
-  // debugger
+    },[props.selectedBarber])
+    
+
     const makeAppointment = () => {
-      // let date = new Date("April 1, 2021 03:00:00"),
       let data = {client_id: user.id, barber_id: props.selectedBarber.id, b_accepted:false, c_accepted:true, date:date, completed: false}
       API.post("/appointments", data)
       .then(res => {
           setUser({...user, appointments: [...user.appointments, res.data]})
-          console.log(res.data)
+          
       })
     }
 
