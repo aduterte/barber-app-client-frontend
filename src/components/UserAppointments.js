@@ -9,33 +9,34 @@ import DateTimePicker from "react-datetime-picker"
 // import {Inject, ScheduleComponent, Day,Week, Month, Agenda, EventSettingsModel} from '@syncfusion/ej2-react-schedule'
 
 export default function UserAppointmentsComponent(){
-
-    const [user,setUser] = useRecoilState(userState),
-          [date, setDate] = useState(new Date()),
-          [approvedAppts, setApprovedAppts]= useRecoilState(approvedApptsState)
-          
-    
-    function acceptAppt(appt){
-      API.patch(`/appointments/${appt.id}`,{c_accepted: true, b_accepted: true, date: appt.date})
-      .then(res=> {
-        let filteredAppts = user.appointments.filter(oldAppts => oldAppts.id !== appt.id)
-        setUser({...user, appointments: [...filteredAppts,res.data]})
-      })
-    }
-
-    function handleDelete(appt){
-    API.delete(`/appointments/${appt.id}`)
-      let filteredAppts = user.appointments.filter(oldAppts => oldAppts.id !== appt.id)
-      setUser({...user, appointments: [...filteredAppts]})
-    }  
-  //  console.log(user)
-    
-  useEffect(() => {
-    setApprovedAppts(user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
-  
-  },[setApprovedAppts])
-     
+  const [user,setUser] = useRecoilState(userState),
+        [date, setDate] = useState(new Date()),
+        [approvedAppts, setApprovedappts]= useRecoilState(approvedApptsState)
         
+
+  useEffect(() => {
+    setApprovedappts(user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
+  
+  },[setApprovedappts])      
+  
+  function acceptAppt(appt){
+    API.patch(`/appointments/${appt.id}`,{c_accepted: true, b_accepted: true, date: appt.date})
+    .then(res=> {
+      let filteredAppts = user.appointments.filter(oldAppts => oldAppts.id !== appt.id)
+      setUser({...user, appointments: [...filteredAppts,res.data]})
+    })
+  }
+
+  function handleDelete(appt){
+  API.delete(`/appointments/${appt.id}`)
+    let filteredAppts = user.appointments.filter(oldAppts => oldAppts.id !== appt.id)
+    setUser({...user, appointments: [...filteredAppts]})
+  }  
+//  console.log(user)
+  
+
+     
+  const pendingConfirmation = user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===false)    
 
 
        
@@ -45,10 +46,16 @@ export default function UserAppointmentsComponent(){
         <div>
             
             <Calendar />
-            <DateTimePicker minDate={new Date()} disableClock={true} onChange={setDate} value={date}/>
-                
+                {!! pendingConfirmation.length > 0 &&
+                  pendingConfirmation.map(appt=> 
+                    <div>
+                      <DateTimePicker minDate={new Date()} disableClock={true} onChange={setDate} value={date}/>
+                      <AppointmentDetails key={`appt${appt.id}`} appt= {appt}/>
+                    </div>
+                  )
+                }
                 <div>
-                    {`${date}`}
+                    
                 </div>
                       <p></p>
                       <p></p>

@@ -25,7 +25,7 @@ export default function BarberDetail() {
     const index = str.substring(n + 1);
 
     API.get(`/barbers/${index}`)
-    .then(res => setSelectedBarber(res.data) )
+     .then(res => setSelectedBarber(res.data) )
 
   },[setSelectedBarber])
 
@@ -39,7 +39,7 @@ function selectAppointments() {
     setIsAppointments(true)
 }
 
-  
+  console.log("selectedBarber",selectedBarber.id)
 
   return ( !!selectedBarber.id &&
     
@@ -52,7 +52,7 @@ function selectAppointments() {
     {isReviews && <BarberReviews 
                     selectedBarber= {selectedBarber} 
                     setSelectedBarber= {setSelectedBarber}/>}
-    {isAppointments && <BarberAppointments selectedBarber= {selectedBarber} />}
+    {isAppointments &&<BarberAppointments selectedBarber= {selectedBarber} />}
       </div>
 </div>
 )
