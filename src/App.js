@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios';
 
 import { Route, Switch, Redirect } from "react-router-dom"
-import  {useEffect} from 'react'
+import  {useEffect, useContext} from 'react'
 import API from './api'
 import SearchBar from './components/Searchbar'
 import BarberDetail from './containers/BarberDetail'
@@ -18,13 +18,16 @@ import {barbersState,
         userState,
         conversationsAtom} from './atoms'
 import PortfolioSettings from './components/PortfolioSettings';
-
+import { ActionCableContext } from './index.js'
+import WSSubscriptions from './Services/WSSubcriptions';
+import MessagesView from './Messages/MessagesView';
 function App() {
 
   const setClients = useSetRecoilState(clientsState),
         setBarbers = useSetRecoilState(barbersState),
-        setConversations = useSetRecoilState(conversationsAtom),
-        [user,setUser] = useRecoilState(userState)
+        [conversations, setConversations] = useRecoilState(conversationsAtom),
+        [user,setUser] = useRecoilState(userState),
+        cable = useContext(ActionCableContext)
 
 
   useEffect(() => {
@@ -50,9 +53,25 @@ function App() {
     }  
   }, [setUser, setConversations])
 
+  useEffect(()=>{
+    if (user.username){
+      cable.subscriptions.create(
+        {channel: 'ConversationsChannel', id: user.id, type: localStorage.type},
+        {received: (data) => {
+            console.log(data)
+            if (data){
+              // debugger
+            }
+            setConversations([...conversations, data])
+        }}
+      )
+    }
+  })
 
   return (
     <div className="main">
+      <WSSubscriptions/>
+      <MessagesView/>
       <NavBar/>
       <div id="main-bottom">
       <Switch>      
