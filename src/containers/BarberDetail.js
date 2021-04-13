@@ -43,17 +43,20 @@ function selectAppointments() {
 
   return ( !!selectedBarber.id &&
     
-  <div>
-    <div>
+<div id="profile-container">
+ 
+ <div className="profile-left" >
     <h1>Profile Page for {selectedBarber.first_name} {selectedBarber.last_name} </h1>
     <h4>email: {selectedBarber.email}</h4>
-        <div onClick={selectReviews}>My Reviews</div>
-        <div onClick={selectAppointments}>My Appointments</div>
-    {isReviews && <BarberReviews 
-                    selectedBarber= {selectedBarber} 
-                    setSelectedBarber= {setSelectedBarber}/>}
-    {isAppointments &&<BarberAppointments selectedBarber= {selectedBarber} />}
-      </div>
+      <div onClick={selectReviews}>My Reviews</div>
+      <div onClick={selectAppointments}>My Appointments</div>
+    <div className="profile-right">
+      {isReviews && <BarberReviews 
+                  selectedBarber= {selectedBarber} 
+                  setSelectedBarber= {setSelectedBarber}/>}
+      {isAppointments &&<BarberAppointments selectedBarber= {selectedBarber} />}  
+    </div>
+  </div>
 </div>
 )
   

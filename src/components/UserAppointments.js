@@ -31,16 +31,10 @@ export default function UserAppointmentsComponent(){
   API.delete(`/appointments/${appt.id}`)
     let filteredAppts = user.appointments.filter(oldAppts => oldAppts.id !== appt.id)
     setUser({...user, appointments: [...filteredAppts]})
-  }  
-//  console.log(user)
-  
-
+  }
      
   const pendingConfirmation = user.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===false)    
 
-
-       
-          // console.log(user)
       
       return( user.appointments &&
         <div>
@@ -69,6 +63,7 @@ export default function UserAppointmentsComponent(){
                             )}
                     <p></p>
                     <p></p>
+                    
             <div>Confirmed Appointments</div>
                 {approvedAppts.map(appt => <AppointmentDetails key={`app${appt.id}`} appt={appt}/>)}
             

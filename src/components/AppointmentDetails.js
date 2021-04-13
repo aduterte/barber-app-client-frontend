@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function AppointmentDetails(props){
-
     const {barber, date} = props.appt
 
     return (

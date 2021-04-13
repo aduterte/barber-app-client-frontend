@@ -27,8 +27,8 @@
       API.post("/appointments", data)
       .then(res => {
           setUser({...user, appointments: [...user.appointments, res.data]})
-          
-      })
+        }
+      )
     }
 
    
