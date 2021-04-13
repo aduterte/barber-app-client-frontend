@@ -14,13 +14,22 @@ export default function Message(props){
         }
     }
 
+    function formatMessage(){
+        if (message.sent_by === "client"){
+            return "message-sent"
+        } else {
+            return "message-received"
+        }
+       
+    }
+
 return (
-    <div>
-        {/* List of Conversations */}
-       <div>{getSender()} said:</div>
-       <div>{message.text}</div>
-        
-        {/* <ActionCableConsumer channel={{channel: 'RoomsChannel'}} onReceived={handleRecievedRoom}/> */}
-    </div>
+    <div className={formatMessage()}>
+    {/* List of Conversations */}
+   <div>{getSender()} said:</div>
+   <div style={{maxWidth: "100px"}} className="message">{message.text}</div>
+    
+    {/* <ActionCableConsumer channel={{channel: 'RoomsChannel'}} onReceived={handleRecievedRoom}/> */}
+</div>
 )
 }

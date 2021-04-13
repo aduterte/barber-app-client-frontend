@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {userState, conversationsAtom} from "../atoms"
-import {useRecoilValue} from "recoil"
-
+import {useRecoilValue, useRecoilState} from "recoil"
+import { ActionCableContext } from '../index.js'
 import ConversationComponent from "../components/ConversationComponent"
 
 
 export default function ConversationList(){
 
-    const user = useRecoilValue(userState),
-        conversations = useRecoilValue(conversationsAtom)
-    // debugger
+    const cable = useContext(ActionCableContext),
+        user = useRecoilValue(userState),
+        [conversations, setConversations] = useRecoilState(conversationsAtom)
+        
     return (
         <div>
             
