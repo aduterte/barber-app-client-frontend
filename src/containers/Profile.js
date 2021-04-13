@@ -1,6 +1,6 @@
 import API from '../api'
 import ProfileReviews from '../components/ProfileReviews'
-import UserAppointments from '../components/UserAppointments';
+import UserAppointments from '../components/UserAppointments'
 import {useRecoilState} from "recoil"
 import {userState} from "../atoms"
 import React, {useState} from 'react'
@@ -37,6 +37,7 @@ function selectConvos(){
 
   return(!!user.id &&
 <div id="profile-container">
+ 
   <div className="profile-left" >
     <h1>Welcome, {user.first_name} {user.last_name} </h1>
         <div onClick={selectReviews}>My Reviews</div>

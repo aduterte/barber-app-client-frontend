@@ -1,10 +1,11 @@
 
  
-  import React, {useState} from 'react';
-  import {userState} from '../atoms'
+  import React, {useState, useEffect} from 'react';
+  import {userState, approvedApptsState} from '../atoms'
   import {useRecoilState} from 'recoil'
   import API from "../api"
   import AppointmentDetails from './AppointmentDetails';
+  import Calendar from './Calendar'
   import DateTimePicker from "react-datetime-picker"
   // dannys schedualer app
   // import {Inject, ScheduleComponent, Day,Week, Month, Agenda, EventSettingsModel} from '@syncfusion/ej2-react-schedule'
@@ -12,16 +13,21 @@
 
   export default function BarberAppointments(props){
       const [user,setUser] = useRecoilState(userState),
-            [date, setDate] = useState(new Date())
-            
-  // debugger
+            [date, setDate] = useState(new Date()),
+            [approvedAppts, setApprovedAppts]= useRecoilState(approvedApptsState)
+
+    useEffect(() => {
+      setApprovedAppts(props.selectedBarber.appointments.filter(appt => appt.b_accepted===true && appt.c_accepted===true))
+    
+    },[props.selectedBarber])
+    
+
     const makeAppointment = () => {
-      // let date = new Date("April 1, 2021 03:00:00"),
       let data = {client_id: user.id, barber_id: props.selectedBarber.id, b_accepted:false, c_accepted:true, date:date, completed: false}
       API.post("/appointments", data)
       .then(res => {
           setUser({...user, appointments: [...user.appointments, res.data]})
-          console.log(res.data)
+          
       })
     }
 
@@ -38,7 +44,7 @@
   
       return( user&&
         <div>
-          <p></p>
+          <Calendar/>
             <DateTimePicker minDate={new Date()} disableClock={true} onChange={setDate} value={date}/>
            
             <div>

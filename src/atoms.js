@@ -27,6 +27,11 @@ export const selectedBarberState = atom({
   default: null
  })
 
+ export const approvedApptsState = atom({
+  key: "approvedApptsState",
+  default: []
+ })
+
 
  export const userState = atom({
   key: "userState",

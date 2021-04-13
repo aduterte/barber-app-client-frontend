@@ -1,6 +1,5 @@
 import API from '../api'
 import ClientReviewCommentForm from './ClientReviewCommentForm'
-
 import { useState } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import {barbersState,
@@ -47,6 +46,7 @@ export default function BarberReviewForm(props){
   
   return(
 <div>
+ 
 
     {user.client_reviews.map(review=>
           

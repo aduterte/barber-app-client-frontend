@@ -30,7 +30,7 @@ export default function NavBar(){
             <div id="nav-bar-right">
 
                 <div>
-                  
+                
                    <Link to={`/clients/${user.id}`}><img src={user.photo} className="mini-avatar" alt="user avatar"/></Link>
                    
                   </div>
